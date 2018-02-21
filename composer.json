@@ -13,6 +13,9 @@
         "magento/framework": "^100.0.0|^101.0.0"
     },
     "autoload": {
+        "files": [
+            "registration.php"
+        ],
         "psr-4": {
             "Dreipunktnull\\Magento2Shariff\\": ""
         }
