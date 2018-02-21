@@ -18,7 +18,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Dreipunktnull\\Magento2Shariff\\": ""
+            "Dreipunktnull\\Shariff\\": ""
         }
     }
 }
