@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Dreipunktnull_Shariff::shariff" title="Shariff" translate="title" module="Dreipunktnull_Shariff"
+             parent="Magento_Backend::content" sortOrder="50" dependsOnModule="Dreipunktnull_Shariff"
+             resource="Dreipunktnull_Shariff::shariff_settings"/>
+        <add id="Dreipunktnull_Shariff::shariff_settings" title="Shariff Settings" translate="title"
+             module="Dreipunktnull_Shariff" parent="Dreipunktnull_Shariff::shariff" sortOrder="10"
+             dependsOnModule="Dreipunktnull_Shariff" action="adminhtml/system_config/edit/section/shariff_settings"
+             resource="Dreipunktnull_Shariff::shariff_settings"/>
+    </menu>
+</config>
