@@ -10,22 +10,23 @@ use Psr\Log\LoggerInterface;
 
 class Backend extends Action
 {
+    const availableSimpleServices = [
+        'LinkedIn',
+        'Reddit',
+        'StumbleUpon',
+        'Flattr',
+        'Pinterest',
+        'Xing',
+        'AddThis',
+        'Vk',
+    ];
+
     private static $defaultConfiguration = [
         'cache' => [
             'ttl' => 60,
         ],
         'domains' => [],
-        'services' => [
-            'Facebook',
-            'LinkedIn',
-            'Reddit',
-            'StumbleUpon',
-            'Flattr',
-            'Pinterest',
-            'Xing',
-            'AddThis',
-            'Vk',
-        ],
+        'services' => [],
     ];
 
     public function __construct(
@@ -64,25 +65,6 @@ class Backend extends Action
     }
 
     /**
-     * @return array
-     */
-    private function prepareConfiguration()
-    {
-        $urls = explode(',', $this->getConfig('shariff_settings/backend/domains'));
-        $configuration = self::$defaultConfiguration;
-        $configuration['domains'] = $urls;
-        return $configuration;
-    }
-
-    public function getConfig($config_path)
-    {
-        return $this->_objectManager->get(ScopeConfigInterface::class)->getValue(
-            $config_path,
-            ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    /**
      * @return ShariffBackend
      */
     private function prepareBackend()
@@ -91,5 +73,55 @@ class Backend extends Action
         $shariff = new ShariffBackend($configuration);
         $shariff->setLogger($this->_objectManager->get(LoggerInterface::class));
         return $shariff;
+    }
+
+    /**
+     * @return array
+     */
+    private function prepareConfiguration()
+    {
+        $urls = explode(',', $this->getConfig('shariff_settings/backend/domains'));
+        $serviceConfig = $this->getConfig('shariff_settings/services');
+        $cacheConfig = $this->getConfig('shariff_settings/cache');
+
+        $configuration = self::$defaultConfiguration;
+        if (true === $this->serviceIsEnabled('facebook', $serviceConfig)) {
+            $configuration['services'][] = 'Facebook';
+            $configuration['Facebook'] = [
+                'app_id' => $serviceConfig['service_facebook_appid'],
+                'secret' => $serviceConfig['service_facebook_secret'],
+            ];
+        }
+
+        foreach (self::availableSimpleServices as $service) {
+            if (true === $this->serviceIsEnabled(strtolower($service), $serviceConfig)) {
+                $configuration['services'][] = $service;
+            }
+        }
+
+        $configuration['domains'] = $urls;
+        $configuration['cache']['ttl'] = $cacheConfig['ttl'];
+
+        return $configuration;
+    }
+
+    public function getConfig($configPath)
+    {
+        return $this->_objectManager->get(ScopeConfigInterface::class)->getValue(
+            $configPath,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @param string $serviceName
+     * @param array $serviceConfig
+     * @return bool
+     */
+    private function serviceIsEnabled($serviceName, $serviceConfig)
+    {
+        $enableConfigKey = sprintf('service_enable_%s', $serviceName);
+
+        return true === array_key_exists($enableConfigKey, $serviceConfig) && true === (bool)$serviceConfig[$enableConfigKey];
     }
 }

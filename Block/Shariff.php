@@ -72,4 +72,9 @@ class Shariff extends Template
     {
         return '/shariff_backend/shariff/backend';
     }
+
+    public function isBackendEnabled()
+    {
+        return (bool)$this->getConfig('shariff_settings/backend/enable');
+    }
 }

@@ -1,5 +1,5 @@
 <div class="shariff"
-     <?php if ($block->getBackendUrl() !== null): ?>
+     <?php if (true === $block->isBackendEnabled() && $block->getBackendUrl() !== null): ?>
          data-backend-url="<?= $block->getBackendUrl() ?>"
      <?php endif; ?>
      data-services="<?= $block->getServicesCsv() ?>"

@@ -18,6 +18,18 @@
                     <label>Enable Facebook</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="service_facebook_appid" translate="label comment" type="text" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Facebook AppID</label>
+                    <depends>
+                        <field id="service_enable_facebook">1</field>
+                    </depends>
+                </field>
+                <field id="service_facebook_secret" translate="label comment" type="text" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Facebook Secret</label>
+                    <depends>
+                        <field id="service_enable_facebook">1</field>
+                    </depends>
+                </field>
                 <field id="service_enable_googleplus" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Google+</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -35,7 +47,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="service_enable_whatsapp" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable XING</label>
+                    <label>Enable Whatsapp</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="service_enable_mail" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -122,8 +134,18 @@
             </group>
             <group id="backend" translate="label" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Backend</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Share Count</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="domains" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Allowed Domain names (CSV)</label>
+                </field>
+            </group>
+            <group id="cache" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Cache</label>
+                <field id="ttl" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>TTL (Time to live)</label>
                 </field>
             </group>
         </section>
